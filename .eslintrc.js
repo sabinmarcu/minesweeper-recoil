@@ -3,6 +3,7 @@ const rules = {
   'import/no-dynamic-require': 0,
   'global-require': 0,
   'react/react-in-jsx-scope': 0,
+  'react/prop-types': 0,
 };
 
 module.exports = {
