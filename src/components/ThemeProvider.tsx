@@ -5,5 +5,9 @@ import { theme } from '../atoms/theme';
 
 export const ThemeProvider: FC = ({ children }) => {
   const value = useRecoilValue(theme);
-  return <EmotionThemeProvider theme={value}>{children}</EmotionThemeProvider>;
+  return (
+    <EmotionThemeProvider theme={value}>
+      {children}
+    </EmotionThemeProvider>
+  );
 };
