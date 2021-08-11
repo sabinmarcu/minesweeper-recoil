@@ -2,6 +2,7 @@ const rules = {
   'import/prefer-default-export': 0,
   'import/no-dynamic-require': 0,
   'global-require': 0,
+  'react/react-in-jsx-scope': 0,
 };
 
 module.exports = {

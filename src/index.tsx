@@ -1,9 +1,7 @@
-import { render } from "react-dom";
-import { App } from "./App";
-import { RecoilRoot } from "recoil";
-import { ThemeProvider } from "./components/ThemeProvider";
-
-console.log('Here');
+import { render } from 'react-dom';
+import { RecoilRoot } from 'recoil';
+import { App } from './App';
+import { ThemeProvider } from './components/ThemeProvider';
 
 render(
   <RecoilRoot>
@@ -11,5 +9,5 @@ render(
       <App />
     </ThemeProvider>
   </RecoilRoot>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );

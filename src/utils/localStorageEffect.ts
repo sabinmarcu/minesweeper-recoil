@@ -12,7 +12,7 @@ export const localStorageEffect = <T>(
         if (validator(value)) {
           setSelf(value);
         }
-      } catch {}
+      } catch { /* skip */ }
     };
 
     const savedValue = localStorage.getItem(key);
