@@ -36,7 +36,7 @@ export const localStorageEffect = <T>(
       newValue,
       oldValue,
       key: eKey,
-    }) => {
+    }: StorageEvent) => {
       if (key !== eKey || storageArea !== localStorage || newValue === oldValue) {
         return;
       }

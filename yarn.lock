@@ -3008,7 +3008,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^17.0.17":
+"@types/react-dom@npm:^17.0.9":
+  version: 17.0.9
+  resolution: "@types/react-dom@npm:17.0.9"
+  dependencies:
+    "@types/react": "*"
+  checksum: b7e898e1a22643a371f58e801a3d1d8cf13a82d77063c24be73e840ef8d877ca1d04adc5db168d0dac3167dc050a26b1d70efc5fe8566a7f46a3c488a8322989
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:*, @types/react@npm:^17.0.17":
   version: 17.0.17
   resolution: "@types/react@npm:17.0.17"
   dependencies:
@@ -15290,6 +15299,7 @@ resolve@^2.0.0-next.3:
     "@emotion/styled": 11.3.0
     "@snowpack/plugin-react-refresh": 2.5.0
     "@types/react": ^17.0.17
+    "@types/react-dom": ^17.0.9
     "@typescript-eslint/eslint-plugin": ^4.29.1
     eslint: ^7.32.0
     eslint-config-airbnb-base: ^14.2.1
