@@ -12,8 +12,8 @@ export const App = () => (
       <Button onClick={() => {}}>Click Me!!!</Button>
       <Button noRipple>No Ripple!!!</Button>
       <Button noRipple onClick={() => {}}>No Ripple!!!</Button>
-      <Button multi={false}>Single Ripple!!!</Button>
-      <Button multi={false} onClick={() => {}}>Single Ripple!!!</Button>
+      <Button single>Single Ripple!!!</Button>
+      <Button single onClick={() => {}}>Single Ripple!!!</Button>
     </div>
   </>
 );

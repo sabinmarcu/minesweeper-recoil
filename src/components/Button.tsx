@@ -2,13 +2,13 @@
 
 import styled from '@emotion/styled';
 import { FC, HTMLAttributes } from 'react';
-import { withRipple, withRippleMulti } from './Ripple';
+import { withRippleSingle, withRipple } from './Ripple';
 
 type ButtonRawProps = {
   noRipple?: boolean,
 };
 type ButtonProps = {
-  multi?: boolean
+  single?: boolean
 } & ButtonRawProps;
 
 export const ButtonRaw = styled.button<ButtonRawProps>(
@@ -48,25 +48,26 @@ export const ButtonRaw = styled.button<ButtonRawProps>(
   `,
 );
 
-export const ButtonSingle = withRipple(
+export const ButtonSingle = withRippleSingle(
   ButtonRaw,
   ({ noRipple }) => ({ disable: !!noRipple }),
 );
-ButtonSingle.displayName = 'Button Single';
+ButtonSingle.displayName = 'withSingleRippleVariant(Button)';
 
-export const ButtonMulti = withRippleMulti(
+export const ButtonMulti = withRipple(
   ButtonRaw,
   ({ noRipple }) => ({ disable: !!noRipple }),
 );
-ButtonMulti.displayName = 'Button Multi';
+ButtonMulti.displayName = 'withRippleVariant(Button)';
 
 export const Button: FC<ButtonProps & HTMLAttributes<HTMLButtonElement>> = ({
   children,
-  multi = true,
+  single,
   ...props
 }) => {
-  if (multi) {
+  if (!single) {
     return <ButtonMulti {...props}>{children}</ButtonMulti>;
   }
   return <ButtonSingle {...props}>{children}</ButtonSingle>;
 };
+Button.displayName = 'ButtonFactory';

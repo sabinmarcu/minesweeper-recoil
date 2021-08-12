@@ -57,7 +57,7 @@ const {
   },
 );
 
-export const useRippleMulti = <T extends HTMLElement>(
+export const useRipple = <T extends HTMLElement>(
   ref: MutableRefObject<T | undefined>,
   {
     disable,
@@ -100,7 +100,7 @@ export const useRippleMulti = <T extends HTMLElement>(
   return rippleProps;
 };
 
-export const withRippleMulti = <
+export const withRipple = <
 K extends {},
 T extends HTMLElement,
 >(
@@ -108,7 +108,7 @@ T extends HTMLElement,
     propsTransform?: (props: K) => RippleHookProps,
   ) => {
   const StyledComponent = styled(Component)(rippleContainerStyles);
-  StyledComponent.displayName = `withRippleMulti(${Component.displayName || Component.name})`;
+  StyledComponent.displayName = `withRipple(${Component.displayName || Component.name})`;
   return forwardRef<T, K>(
     (
       props,
@@ -117,7 +117,7 @@ T extends HTMLElement,
       const ref = useReplicateRef<T>(outerRef);
       const { children } = props;
       const hookProps = propsTransform ? propsTransform(props) : {};
-      const ripple = useRippleMulti<T>(ref, hookProps);
+      const ripple = useRipple<T>(ref, hookProps);
       if (!ripple.shouldRender) {
         return createElement(StyledComponent, { ...props, ref }, children);
       }

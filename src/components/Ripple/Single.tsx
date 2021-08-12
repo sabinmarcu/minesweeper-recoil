@@ -16,18 +16,13 @@ import {
   useRippleRef,
   Ripple,
   RippleHookProps,
-  DurationProp,
   RippleHookType as RippleHookFactory,
+  RippleProps,
 } from './common';
-
-type RippleProps = {
-  size: number,
-  position: Point,
-} & DurationProp;
 
 type RippleHookType = RippleHookFactory<RippleProps>;
 
-export const useRipple = <T extends HTMLElement>(
+export const useRippleSingle = <T extends HTMLElement>(
   ref: MutableRefObject<T | undefined>,
   {
     disable,
@@ -69,7 +64,7 @@ export const useRipple = <T extends HTMLElement>(
   return rippleProps;
 };
 
-export const withRipple = <
+export const withRippleSingle = <
 K extends {},
 T extends HTMLElement,
 >(
@@ -77,7 +72,7 @@ T extends HTMLElement,
     propsTransform?: (props: K) => RippleHookProps,
   ) => {
   const StyledComponent = styled(Component)(rippleContainerStyles);
-  StyledComponent.displayName = `withRipple(${Component.displayName || Component.name})`;
+  StyledComponent.displayName = `withRippleSingle(${Component.displayName || Component.name})`;
   return forwardRef<T, K>(
     (
       props,
@@ -86,7 +81,7 @@ T extends HTMLElement,
       const ref = useReplicateRef<T>(outerRef);
       const { children } = props;
       const hookProps = propsTransform ? propsTransform(props) : {};
-      const { shouldRender, ...rippleProps } = useRipple<T>(ref, hookProps);
+      const { shouldRender, ...rippleProps } = useRippleSingle<T>(ref, hookProps);
       return createElement(
         StyledComponent,
         {

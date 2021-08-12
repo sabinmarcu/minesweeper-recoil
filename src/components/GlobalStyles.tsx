@@ -11,6 +11,7 @@ export const GlobalStyles = () => (
     body {
       background: ${theme.colors.background.base};
       transition: background ${theme.animation.themeChange};
+      overflow-y: auto;
     }
   `}
   />
