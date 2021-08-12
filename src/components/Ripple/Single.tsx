@@ -1,6 +1,5 @@
 import {
   MutableRefObject,
-  useEffect,
   useMemo,
   useState,
   ComponentType,
@@ -8,41 +7,32 @@ import {
   createElement,
   Children,
 } from 'react';
-import isPropValid from '@emotion/is-prop-valid';
-import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useMeasure } from '../hooks/useMeasure';
-import { useReplicateRef } from '../hooks/useReplicateRef';
+import { useReplicateRef } from '../../hooks/useReplicateRef';
+import {
+  Point,
+  rippleContainerStyles,
+  extractPosition,
+  useRippleRef,
+  Ripple,
+  RippleHookProps,
+  DurationProp,
+  RippleHookType as RippleHookFactory,
+} from './common';
 
-type DurationProp = { duration: number };
-
-type Point = {
-  x: number;
-  y: number;
-};
-
-type RippleType = {
+type RippleProps = {
   size: number,
   position: Point,
 } & DurationProp;
 
-type RippleHookType = { shouldRender: false }
-| { shouldRender: true } & RippleType;
-
-const extractPosition = (event: MouseEvent): Point => ({
-  x: event.offsetX,
-  y: event.offsetY,
-});
+type RippleHookType = RippleHookFactory<RippleProps>;
 
 export const useRipple = <T extends HTMLElement>(
   ref: MutableRefObject<T | undefined>,
   {
     disable,
     duration = 600,
-  }: {
-    disable?: boolean,
-    duration?: number,
-  } = {},
+  }: RippleHookProps = {},
 ) => {
   const [ripplePosition, setRipplePosition] = useState<Point>();
   const onClick = useMemo(
@@ -57,22 +47,7 @@ export const useRipple = <T extends HTMLElement>(
     },
     [disable, setRipplePosition],
   );
-  useEffect(
-    () => {
-      if (onClick && ref.current) {
-        const element = ref.current;
-        element.addEventListener('click', onClick);
-        return () => element.removeEventListener('click', onClick);
-      }
-      return undefined;
-    },
-    [onClick, ref],
-  );
-  const size = useMeasure<T>(ref);
-  const rippleSize = useMemo(
-    () => (size ? Math.max(size.width, size.height) / 2 : 0),
-    [size],
-  );
+  const rippleSize = useRippleRef(ref, onClick);
   const shouldRender = useMemo(
     () => !!(rippleSize && ripplePosition),
     [rippleSize, ripplePosition],
@@ -94,60 +69,12 @@ export const useRipple = <T extends HTMLElement>(
   return rippleProps;
 };
 
-const rippleAnimation = keyframes`
-  from {
-    transform: scale(1);
-    opacity: 0.7;
-  }
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-`;
-
-export type RippleProps = RippleType;
-
-export const Ripple = styled(
-  'div',
-  { shouldForwardProp: (prop) => isPropValid(prop) && prop !== 'size' },
-)<RippleProps>(
-  ({
-    size,
-    position,
-    duration,
-    theme: {
-      colors: {
-        background: {
-          light,
-        },
-      },
-    },
-  }) => css`
-    position: absolute;
-    pointer-events: none;
-    width: ${size}px;
-    height: ${size}px;
-    left: ${position.x - size / 2}px;
-    top: ${position.y - size / 2}px;
-    border-radius: ${size / 2}px;
-    animation: ${rippleAnimation} ${duration}ms linear;
-    background-color: ${light};
-    transform: scale(4);
-    opacity: 0;
-  `,
-);
-
-const rippleContainerStyles = `
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-`;
-
 export const withRipple = <
 K extends {},
 T extends HTMLElement,
 >(
     Component: ComponentType<K>,
+    propsTransform?: (props: K) => RippleHookProps,
   ) => {
   const StyledComponent = styled(Component)(rippleContainerStyles);
   StyledComponent.displayName = `withRipple(${Component.displayName || Component.name})`;
@@ -158,7 +85,8 @@ T extends HTMLElement,
     ) => {
       const ref = useReplicateRef<T>(outerRef);
       const { children } = props;
-      const { shouldRender, ...rippleProps } = useRipple<T>(ref);
+      const hookProps = propsTransform ? propsTransform(props) : {};
+      const { shouldRender, ...rippleProps } = useRipple<T>(ref, hookProps);
       return createElement(
         StyledComponent,
         {

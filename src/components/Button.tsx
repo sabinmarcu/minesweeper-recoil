@@ -1,9 +1,17 @@
 /* eslint-disable react/button-has-type */
 
 import styled from '@emotion/styled';
-import { withRipple } from './Ripple';
+import { FC, HTMLAttributes } from 'react';
+import { withRipple, withRippleMulti } from './Ripple';
 
-export const ButtonRaw = styled.button(
+type ButtonRawProps = {
+  noRipple?: boolean,
+};
+type ButtonProps = {
+  multi?: boolean
+} & ButtonRawProps;
+
+export const ButtonRaw = styled.button<ButtonRawProps>(
   ({
     theme: {
       colors: {
@@ -40,5 +48,25 @@ export const ButtonRaw = styled.button(
   `,
 );
 
-export const Button = withRipple(ButtonRaw);
-Button.displayName = 'Button';
+export const ButtonSingle = withRipple(
+  ButtonRaw,
+  ({ noRipple }) => ({ disable: !!noRipple }),
+);
+ButtonSingle.displayName = 'Button Single';
+
+export const ButtonMulti = withRippleMulti(
+  ButtonRaw,
+  ({ noRipple }) => ({ disable: !!noRipple }),
+);
+ButtonMulti.displayName = 'Button Multi';
+
+export const Button: FC<ButtonProps & HTMLAttributes<HTMLButtonElement>> = ({
+  children,
+  multi = true,
+  ...props
+}) => {
+  if (multi) {
+    return <ButtonMulti {...props}>{children}</ButtonMulti>;
+  }
+  return <ButtonSingle {...props}>{children}</ButtonSingle>;
+};
