@@ -47,7 +47,7 @@ jspm_packages/
 !.yarn/sdks
 !.yarn/versions
 !.yarn/patches
-# !.yarn/cache
+!.yarn/cache
 .pnp.*
 
 # TypeScript v1 declaration files
