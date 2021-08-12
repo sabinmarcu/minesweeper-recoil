@@ -1,8 +1,6 @@
 /* eslint-disable react/button-has-type */
 
-import { PropsOf } from '@emotion/react';
 import styled from '@emotion/styled';
-import { forwardRef } from 'react';
 import { withRipple } from './Ripple';
 
 export const ButtonRaw = styled.button(
@@ -42,13 +40,5 @@ export const ButtonRaw = styled.button(
   `,
 );
 
-export const Button = withRipple(
-  forwardRef<HTMLButtonElement, PropsOf<typeof ButtonRaw>>(
-    ({ children, ...props }, ref) => (
-      <ButtonRaw ref={ref} {...props}>
-        {children}
-      </ButtonRaw>
-    ),
-  ),
-);
+export const Button = withRipple(ButtonRaw);
 Button.displayName = 'Button';
