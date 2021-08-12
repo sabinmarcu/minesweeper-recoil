@@ -9,7 +9,7 @@ export const GlobalStyles = () => (
       overflow: hidden;
     }
     body {
-      background: ${theme.background};
+      background: ${theme.colors.background.base};
       transition: background ${theme.animation.themeChange};
     }
   `}

@@ -1,9 +1,12 @@
 import { atom, selector } from 'recoil';
 import { darkTheme, lightTheme } from '../config/colors';
-import { localStorageEffect } from '../utils/localStorageEffect';
-import { matchMediaEffect } from '../utils/matchMediaEffect';
-import shadows from '../config/shadows';
+import * as geometry from '../config/geometry';
 import * as animation from '../config/animation';
+import * as animate from '../config/animate';
+import * as transition from '../config/transitions';
+import shadows from '../config/shadows';
+import { localStorageEffect } from '../effects/localStorageEffect';
+import { matchMediaEffect } from '../effects/matchMediaEffect';
 
 const themeMapping = {
   light: lightTheme,
@@ -27,17 +30,14 @@ export const themeSelection = atom<ThemeSelection>({
   ],
 });
 
-const makeTheme = (selection: ThemeSelection) => {
-  const themeChangeAnimation = `${animation.durations.short}ms ${animation.functions.sharp}`;
-  return {
-    shadows,
-    animation: {
-      ...animation,
-      themeChange: themeChangeAnimation,
-    },
-    ...themeMapping[selection],
-  };
-};
+const makeTheme = (selection: ThemeSelection) => ({
+  shadows: [...shadows],
+  animation: { ...animation },
+  animate: { ...animate },
+  transition: { ...transition },
+  geometry: { ...geometry },
+  colors: themeMapping[selection],
+});
 
 export type ThemeType = ReturnType<typeof makeTheme>;
 
