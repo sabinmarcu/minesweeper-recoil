@@ -3,9 +3,9 @@ import { useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { themeSelection, theme } from '../atoms/theme';
 import { Button } from './Button';
-import { withRipple } from './Ripple';
+import { withRippleMulti } from './Ripple';
 
-const StyledSpan = withRipple(styled.span`
+const StyledSpan = withRippleMulti(styled.span`
   display: block;
 `);
 
@@ -20,7 +20,7 @@ export const ThemeSelector = () => {
       <StyledSpan>{selection}</StyledSpan>
       <StyledSpan>{JSON.stringify(themeValue)}</StyledSpan>
       <br />
-      <Button onClick={toggleSelection}>toggle</Button>
+      <Button onClick={toggleSelection} multi={false}>toggle</Button>
     </div>
   );
 };

@@ -108,7 +108,7 @@ T extends HTMLElement,
     propsTransform?: (props: K) => RippleHookProps,
   ) => {
   const StyledComponent = styled(Component)(rippleContainerStyles);
-  StyledComponent.displayName = `withRipple(${Component.displayName || Component.name})`;
+  StyledComponent.displayName = `withRippleMulti(${Component.displayName || Component.name})`;
   return forwardRef<T, K>(
     (
       props,
