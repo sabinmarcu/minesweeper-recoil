@@ -5,6 +5,7 @@ import * as animation from '../config/animation';
 import * as animate from '../config/animate';
 import * as transition from '../config/transitions';
 import shadows from '../config/shadows';
+import { breakpoints, bp } from '../config/breakpoints';
 import { localStorageEffect } from '../effects/localStorageEffect';
 import { matchMediaEffect } from '../effects/matchMediaEffect';
 
@@ -36,6 +37,8 @@ const makeTheme = (selection: ThemeSelection) => ({
   animate: { ...animate },
   transition: { ...transition },
   geometry: { ...geometry },
+  bp,
+  breakpoints,
   colors: themeMapping[selection],
 });
 
